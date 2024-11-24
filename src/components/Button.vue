@@ -45,6 +45,9 @@ export default {
     border-radius: 7px;
     box-shadow: 3px 3px 2px #1f1f1f;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .f-button:hover {

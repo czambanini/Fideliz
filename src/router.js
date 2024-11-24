@@ -17,6 +17,11 @@ const routes = [
     name: 'Edit',
     component: () => import('@/views/Edit.vue'),
   },
+  {
+    path: '/pizzaria-sa',
+    name: 'ClientView',
+    component: () => import('@/views/ClientView.vue'),
+  },
 ];
 
 // Crie a instância do roteador

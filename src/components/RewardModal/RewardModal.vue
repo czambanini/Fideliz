@@ -3,18 +3,20 @@
   <div class="modal">
     <button class="close-btn" @click="$emit('close')"><img src="/X.png" width="20px"/></button>
     <div class="modal-content">
+      <div class="warning" v-if="collected">Este premio já foi coletado</div>
+      <div class="warning" v-if="!active">Este premio ainda não esta disponível</div>
       <p>Escolha seu brinde:</p>
       <div class="rewards">
         <div class="option">
-          <RewardStamp @click="selectFirst" :selected="rewardSelected[0]" number="1" />
+          <RewardStamp @click="selectFirst" :selected="stampSelected[0]" number="1" />
           <p>{{ rewardOptions[0].name }}</p>
         </div>
         <div class="option">
-          <RewardStamp @click="selectSecond" :selected="rewardSelected[1]" number="2" />
+          <RewardStamp @click="selectSecond" :selected="stampSelected[1]" number="2" />
           <p>{{ rewardOptions[1].name }}</p>
         </div>
       </div>
-      <FButton class="button" variant="dark" @click="confirmSelection">
+      <FButton v-if="!collected && active" class="button" variant="dark" @click="confirmSelection">
         aplicar na próxima compra
       </FButton>
     </div>
@@ -28,28 +30,37 @@ import RewardStamp from "./RewardStamp.vue";
 export default {
     name: 'RewardModal',
     components: { FButton, RewardStamp },
-    emits: ['close'],
+    emits: [ 'close', 'select' ],
     data() {
       return {
-          rewardSelected: [ false, false ],
+          stampSelected: [ false, false ],
+          rewardSelected: null,
       }
     },
     props: {
       rewardOptions: {
         type: Object,
-        default: [{ name: "Premio 1", description: "descrição", collected: true }, { name: "Premio 2", description: "descrição", collected: false }]
-      }
+        default: [{ name: '', id: '', collected: false }, { name: '', id: '', collected: false }]
+      },
+      active: Boolean,
+      collected: Boolean,
     },
     methods: {
       selectFirst() {
-        this.rewardSelected = [ true, false ]
+        if(this.active && !this.collected) {
+          this.stampSelected = [ true, false ]
+          this.rewardSelected = this.rewardOptions[0].id
+        }
       },
       selectSecond() {
-        this.rewardSelected = [ false, true ]
+        if(this.active && !this.collected) {
+          this.stampSelected = [ false, true ]
+          this.rewardSelected = this.rewardOptions[1].id
+        }
       },
       confirmSelection() {
-      this.$emit('select', this.rewardSelected);
-      this.$emit('close');
+        this.$emit('select', this.rewardSelected);
+        this.$emit('close');
     }
   }
 }
@@ -64,6 +75,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 2;
 }
 
 .modal {
@@ -74,12 +86,13 @@ export default {
   width: 680px;
   background-color: var(--white);
   border-radius: 20px;
+  z-index: 3;
 }
 
 .modal-content {
   color: var(--gray-04);
   font-size: 20px;
-  padding: 35px;
+  padding: 40px 35px;
   display: flex;
   flex-direction: column;
   gap: 45px;
@@ -109,5 +122,11 @@ export default {
 
 .button {
   flex-grow: 0;
+}
+
+.warning {
+  margin-bottom: -20px;
+  color: var(--green-03);
+  font-weight: 600;
 }
 </style>

@@ -1,4 +1,6 @@
 <template>
+  <div class="stamp-track-container">
+    <h2>Fideliz</h2>
     <div class="stamp-track">
       <div 
         class="stamp-track-line" 
@@ -16,13 +18,16 @@
           @click="openModal(lineIndex)" 
         />
       </div>
-  
         <RewardModal
             v-if="showModal"
-            :rewardOptions="objectReward"
+            :rewardOptions="objectReward.rewards"
+            :active="objectReward.active"
+            :collected="objectReward.collected"
             @close="showModal = false"
+            @select="createTrade"
         />
     </div>
+  </div>
 </template>
 
 <script>
@@ -41,10 +46,10 @@ export default {
         rewards: {
         type: Array,
         default: () => [
-            [{ name: "Premio 1", collected: false }, { name: "Premio 2", collected: false }],
-            [{ name: "Premio 1", collected: false }, { name: "Premio 2", collected: false }],
-            [{ name: "Premio 1", collected: false }, { name: "Premio 2", collected: false }],
-            [{ name: "Premio 1", collected: false }, { name: "Premio 2", collected: false }],
+            [{ id: '001', name: "15% de desconto", collected: true }, { id: '002', name: "Frete grátis", collected: false }],
+            [{ id: '003', name: "Pizza brotinho de chocolate", collected: false }, { id: '004', name: "Entrada pãozinho de azeitona", collected: false }],
+            [{ id: '005', name: "20% de desconto", collected: false }, { id: '006', name: "Cupom pizza familia por R$ 70,00", collected: false }],
+            [{ id: '007', name: "Premio 1", collected: false }, { id: '008', name: "Premio 2", collected: false }],
         ],
         },
     },
@@ -65,14 +70,37 @@ export default {
     },
 
     openModal(lineIndex) {
-      this.objectReward = this.rewards[lineIndex];
+      const active = this.isActive(lineIndex, 5);
+      const collected = this.isCollected(lineIndex);
+
+      this.objectReward = {
+        rewards: this.rewards[lineIndex],
+        active,
+        collected,
+      };
       this.showModal = true;
     },
+
+    createTrade(rewardSelected){
+      //backend cria novo objeto toca
+      console.log(rewardSelected)
+      
+    }
   },
 }
 </script>
 
 <style>
+.stamp-track-container {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .stamp-track-line {
     display: flex;
     justify-content: space-between;
@@ -80,6 +108,14 @@ export default {
     padding: 0 50px;
     gap: 10px;
     margin-bottom: 90px;
+}
+
+h2 {
+    font-family: var(--font-brand);
+    color: var(--green-01);
+    font-size: 40px;
+    margin-bottom: -15px;
+    text-align: center;
 }
 
 .stamp-track-line:nth-child(even) {
@@ -92,5 +128,9 @@ export default {
 
 .stamp-track-line:not(:first-child):nth-child(odd) > :first-child {
     transform: translate(30px, -60px);
+}
+
+.stamp-track-line:last-child {
+  margin-bottom: 0;
 }
 </style>

@@ -88,6 +88,7 @@ input {
     border-radius: 7px;
     background-color: transparent;
     padding: 17px 10px;
+    outline: none;
     align-content: center;
 }
 
