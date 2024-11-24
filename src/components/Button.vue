@@ -75,12 +75,13 @@ export default {
 }
 
 .disabled {
-    background-color: var(--gray-03);
+    background-color: var(--gray-02);
+    box-shadow: none;
 }
 
 .disabled:hover {
     transform: translate(0, 0);
-    box-shadow: 3px 3px 2px #1f1f1f;
+    box-shadow:none;
 }
 
 </style>

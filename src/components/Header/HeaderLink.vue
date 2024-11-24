@@ -1,8 +1,8 @@
 <template>
     <div class="header-link">
-        <a :href="link">
+        <router-link :to="link">
             <slot></slot>
-        </a>
+        </router-link>
     </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     props: {
         link: {
             type: String,
-            default: 'http://'
+            default: '/'
         }
     }
 }

@@ -9,6 +9,7 @@
                 :placeholder="placeholder"
                 @input="$emit('update:modelValue', $event.target.value)"
                 :style="setDimentions"
+                :class="variant"
             />
             <p v-if="hint" class="hint">{{ hint }}</p>
             <p v-if="error" class="error">{{ error }}</p>
@@ -55,7 +56,11 @@ export default {
         error: {
             type: String,
             default: ''
-        }
+        },
+        variant: {
+            type: String,
+            default: 'primary'
+        },
     },
     computed: {
         setDimentions() {
@@ -86,8 +91,21 @@ input {
     align-content: center;
 }
 
+input:hover {
+    background-color: transparent;
+}
+
 ::placeholder {
     color: var(--gray-03);
+}
+
+.dark {
+    border: 1px var(--gray-02) solid;
+    color: var(--gray-03);
+}
+
+.dark::placeholder {
+    color: var(--gray-02);
 }
 
 .hint {

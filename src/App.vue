@@ -1,21 +1,13 @@
 <template>
-  <Header>
-    <HeaderLink>Criar Conta</HeaderLink>
-  </Header>
-
+  <div id="app">
+    <router-view /> <!-- Exibe o conteúdo das rotas -->
+  </div>
 </template>
 
 <script>
-import Header from "./components/Header/Header.vue";
-import HeaderLink from "./components/Header/HeaderLink.vue";
-import FInput from "./components/Input.vue";
-import FButton from "./components/Button.vue";
-import StampTrack from "./components/StampTrack/StampTrack.vue";
 
 export default {
-  name: 'App',
-  components: { Header, HeaderLink, FInput, FButton, StampTrack }
-  
+  name: 'App'
 }
 
 </script>
